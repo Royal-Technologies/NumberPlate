@@ -560,13 +560,13 @@
 
       </div>
 
-      <!-- ================= RIGHT PREVIEW & DOWNLOAD (5 Cols) ================= -->
-      <div class="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
+      <!-- ================= RIGHT PREVIEW & DOWNLOAD (5 Cols - Sticky on Desktop) ================= -->
+      <div class="lg:col-span-5 lg:sticky lg:top-24 self-start space-y-4">
 
-        <!-- LIVE CANVAS PREVIEW -->
-        <div class="glass-card">
-          <div class="card-header-bar">
-            <div class="card-header-title">
+        <!-- LIVE CANVAS PREVIEW & INTEGRATED DOWNLOAD CARD -->
+        <div class="glass-card shadow-2xl">
+          <div class="card-header-bar mb-3">
+            <div class="card-header-title text-sm sm:text-base">
               <span class="text-indigo-400">👁️</span>
               <span>লাইভ ক্যানভাস প্রিভিউ <span class="text-xs font-normal text-[var(--text-muted)] font-sans">/ Live Preview</span></span>
             </div>
@@ -576,7 +576,7 @@
             </div>
           </div>
 
-          <!-- Preview Stage -->
+          <!-- Preview Stage (Adapts strictly to Plate Height) -->
           <div class="canvas-stage-wrapper">
             <div class="canvas-container" id="canvasContainer">
               <canvas id="plateCanvas"></canvas>
@@ -586,86 +586,73 @@
           </div>
 
           <!-- Metadata info bar -->
-          <div class="mt-4 pt-3 border-t border-[var(--border-color)] flex items-center justify-between text-xs text-[var(--text-muted)]">
-            <div class="flex items-center gap-2">
+          <div class="mt-3 py-2 border-t border-[var(--border-color)] flex items-center justify-between text-xs text-[var(--text-muted)]">
+            <div class="flex items-center gap-1.5">
               <span class="text-indigo-400">📏</span>
               <span class="font-medium">মাপ:</span>
               <span id="dimensionDisplayBadge" class="font-bold text-[var(--text-main)]">285 × 50 mm</span>
             </div>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-1.5">
               <span class="text-cyan-400">🔍</span>
-              <span class="font-medium">রেন্ডার স্কেল:</span>
+              <span class="font-medium">স্কেল:</span>
               <span class="font-bold text-[var(--text-main)]">300 DPI High-Res</span>
             </div>
           </div>
+
+          <!-- Compact Download & Print Actions (Inside Live Preview) -->
+          <div class="mt-3 pt-3 border-t border-[var(--border-color)]">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-[var(--text-main)] flex items-center gap-1.5 font-bangla">
+                <span>💾</span>
+                <span>ডাউনলোড ও প্রিন্ট / Export:</span>
+              </span>
+              <span class="text-[10px] text-emerald-400 font-semibold font-bangla bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">১০০% ফ্রি</span>
+            </div>
+
+            <!-- Compact Buttons Toolbar: 4 in a neat row -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <!-- JPG -->
+              <button id="downloadJpgBtn" class="btn-compact btn-blue" title="হাই-কোয়ালিটি 300 DPI JPG ডাউনলোড">
+                <span>🖼️</span>
+                <span>JPG</span>
+              </button>
+
+              <!-- PNG -->
+              <button id="downloadPngBtn" class="btn-compact btn-purple" title="স্বচ্ছ ব্যাকগ্রাউন্ড PNG ডাউনলোড">
+                <span>🎨</span>
+                <span>PNG</span>
+              </button>
+
+              <!-- PDF A4 Sheet -->
+              <button id="downloadPdfBtn" class="btn-compact btn-rose" title="A4 পেপারে সত্যিকার ১:১ মাপে প্রিন্ট শিট">
+                <span>📄</span>
+                <span>A4 PDF</span>
+              </button>
+
+              <!-- Copy to Clipboard -->
+              <button id="copyImageBtn" class="btn-compact btn-emerald" title="ক্লিপবোর্ডে কপি করুন">
+                <span>📋</span>
+                <span>কপি</span>
+              </button>
+            </div>
+
+            <p class="text-[11px] text-[var(--text-subtle)] text-center mt-2 font-bangla">
+              ✓ A4 PDF-এ কাটার ক্রপ মার্ক সহ সত্যিকার ১:১ স্কেলে প্রিন্ট হবে
+            </p>
+          </div>
+
         </div>
 
-        <!-- EXPORT & DOWNLOAD ACTIONS -->
-        <div class="glass-card">
-          <div class="card-header-bar">
-            <div class="card-header-title">
-              <span class="text-indigo-400">💾</span>
-              <span>ডাউনলোড ও প্রিন্টিং <span class="text-xs font-normal text-[var(--text-muted)] font-sans">/ Export & Print</span></span>
-            </div>
-            <span class="text-[11px] text-indigo-400 font-semibold font-bangla">১০০% ফ্রি</span>
-          </div>
-
-          <p class="text-xs text-[var(--text-muted)] font-bangla leading-relaxed">
-            আপনার পছন্দের ফরম্যাটে হাই-রেজ্যুলেশন ইমেজ অথবা সরাসরি প্রিন্ট করার জন্য A4 শিট আকারে ডাউনলোড করুন:
-          </p>
-
-          <!-- Download Buttons Grid -->
-          <div class="action-buttons-grid">
-            <!-- JPG -->
-            <button id="downloadJpgBtn" class="btn-glow btn-blue" title="হাই-কোয়ালিটি জেপিজি ডাউনলোড">
-              <span class="text-xl mb-1">🖼️</span>
-              <span>JPG ফাইল</span>
-              <span class="btn-sub">300 DPI Image</span>
-            </button>
-
-            <!-- PNG -->
-            <button id="downloadPngBtn" class="btn-glow btn-purple" title="স্বচ্ছ ব্যাকগ্রাউন্ড সহ পিএনজি">
-              <span class="text-xl mb-1">🎨</span>
-              <span>PNG ফাইল</span>
-              <span class="btn-sub">Crisp Quality</span>
-            </button>
-
-            <!-- PDF A4 Sheet -->
-            <button id="downloadPdfBtn" class="btn-glow btn-rose" title="A4 পেপারে সত্যিকার ১:১ স্কেলে প্রিন্টের জন্য">
-              <span class="text-xl mb-1">📄</span>
-              <span>A4 PDF শিট</span>
-              <span class="btn-sub">১০০% আসল মাপ</span>
-            </button>
-
-            <!-- Copy to Clipboard -->
-            <button id="copyImageBtn" class="btn-glow btn-emerald" title="ক্লিপবোর্ডে কপি করুন">
-              <span class="text-xl mb-1">📋</span>
-              <span>ক্লিপবোর্ড কপি</span>
-              <span class="btn-sub">Copy Image</span>
-            </button>
-          </div>
-
-          <!-- PDF Sheet Notice -->
-          <div class="mt-4 p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-xs text-[var(--text-muted)] font-bangla leading-relaxed flex items-start gap-2.5">
-            <span class="text-indigo-400 mt-0.5 text-base">ℹ️</span>
-            <div>
-              <strong class="text-[var(--text-main)]">A4 প্রিন্টিং শিটের বৈশিষ্ট্য:</strong>
-              পিডিএফ ডাউনলোডে সঠিক স্কেলিং রুলার ও চার কোণে কাটার ক্রপ মার্ক (Crop Marks) থাকবে। মোটরসাইকেল প্লেটের ক্ষেত্রে একটি A4 পেপারে ৩টি কপি এবং স্কুটারের ক্ষেত্রে ২টি কপি সাজানো থাকে।
-            </div>
-          </div>
-        </div>
-
-        <!-- QUICK GUIDELINE CARD -->
-        <div class="glass-card">
-          <div class="flex items-center gap-2 mb-2 text-sm font-bold text-[var(--text-main)] font-bangla">
+        <!-- QUICK GUIDELINE CARD (Compact) -->
+        <div class="glass-card py-3 px-4">
+          <div class="flex items-center gap-2 mb-1.5 text-xs font-bold text-[var(--text-main)] font-bangla">
             <span class="text-cyan-400">💡</span>
-            <span>বিআরটিএ নম্বর প্লেট ব্যবহারের সাধারণ নিয়ম</span>
+            <span>বিআরটিএ নম্বর প্লেটের সাধারণ নিয়মাবলী</span>
           </div>
-          <ul class="text-xs text-[var(--text-muted)] space-y-1.5 font-bangla list-disc list-inside">
-            <li>সাধারণ মোটরসাইকেলের সামনে 285×50 mm এবং পেছনে 200×100 mm সাইজ ব্যবহূত হয়।</li>
+          <ul class="text-[11px] text-[var(--text-muted)] space-y-1 font-bangla list-disc list-inside">
+            <li>মোটরসাইকেলের সামনে 285×50 mm এবং পেছনে 200×100 mm সাইজ ব্যবহূত হয়।</li>
             <li>ব্যক্তিগত গাড়ির জন্য সাদা ব্যাকগ্রাউন্ড ও কালো অক্ষর বাধ্যতামূলক।</li>
-            <li>ভাড়া চালিত ট্যাক্সি, সিএনজি, বাসের জন্য হলুদ ব্যাকগ্রাউন্ড বাধ্যতামূলক।</li>
-            <li>সরকারি গাড়ির জন্য লাল ব্যাকগ্রাউন্ড ও সাদা অক্ষর প্রযোজ্য।</li>
+            <li>বাণিজ্যিক গাড়ির (ট্যাক্সি, সিএনজি, বাস) জন্য হলুদ ব্যাকগ্রাউন্ড বাধ্যতামূলক।</li>
           </ul>
         </div>
 
