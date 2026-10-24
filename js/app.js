@@ -7,10 +7,11 @@
 (function () {
   'use strict';
 
-  // ─── Theme Management ──────────────────────────────────────────
+  // ─── Theme Management (Dark / Light Mode with Inline SVGs) ───────
   const htmlEl = document.documentElement;
   const themeToggleBtn = document.getElementById('themeToggleBtn');
-  const themeIcon = document.getElementById('themeIcon');
+  const sunIcon = document.getElementById('sunIcon');
+  const moonIcon = document.getElementById('moonIcon');
 
   function initTheme() {
     const savedTheme = localStorage.getItem('rt_numberplate_theme');
@@ -26,12 +27,16 @@
     if (theme === 'light') {
       htmlEl.classList.remove('dark');
       htmlEl.classList.add('light');
-      themeIcon.className = 'fa-solid fa-moon text-indigo-400 text-lg';
+      // In light mode, show the Moon icon so user can switch to dark
+      if (sunIcon) sunIcon.classList.add('hidden');
+      if (moonIcon) moonIcon.classList.remove('hidden');
       localStorage.setItem('rt_numberplate_theme', 'light');
     } else {
       htmlEl.classList.remove('light');
       htmlEl.classList.add('dark');
-      themeIcon.className = 'fa-solid fa-sun text-amber-400 text-lg';
+      // In dark mode, show the Sun icon so user can switch to light
+      if (sunIcon) sunIcon.classList.remove('hidden');
+      if (moonIcon) moonIcon.classList.add('hidden');
       localStorage.setItem('rt_numberplate_theme', 'dark');
     }
   }
@@ -45,7 +50,7 @@
 
   // ─── State Definition ──────────────────────────────────────────
   const state = {
-    // Dimensions in millimeters
+    // Dimensions in millimeters (Default: Motorcycle Front 285x50mm)
     widthMm: 285,
     heightMm: 50,
     lines: 1, // 1 or 2
@@ -58,8 +63,7 @@
     frameThickness: 'medium', // none, thin (0.5mm), medium (1mm), thick (2mm)
     
     // Additional Visual Features
-    screwHoles: true,
-    hologram: true,
+    screwHoles: false, // Default false as per clean plate preference
     emboss3d: true,
     glossSheen: true,
     autoBanglaDigits: true,
@@ -77,7 +81,7 @@
   const colorThemes = {
     white: {
       bg: '#ffffff',
-      bgGradient: ['#ffffff', '#f1f5f9'],
+      bgGradient: ['#ffffff', '#f8fafc'],
       text: '#0f172a',
       border: '#0f172a',
       divider: '#334155',
@@ -149,7 +153,6 @@
 
   // Toggles
   const screwHolesToggle = document.getElementById('screwHolesToggle');
-  const hologramToggle = document.getElementById('hologramToggle');
   const emboss3dToggle = document.getElementById('emboss3dToggle');
   const glossToggle = document.getElementById('glossToggle');
 
@@ -162,10 +165,8 @@
   const toastMsg = document.getElementById('toastMsg');
 
   // ─── Helper: Show Toast ────────────────────────────────────────
-  function showToast(msg, icon = 'fa-circle-check') {
+  function showToast(msg) {
     toastMsg.textContent = msg;
-    const iconEl = toast.querySelector('i');
-    if (iconEl) iconEl.className = `fa-solid ${icon} text-emerald-400 text-lg`;
     toast.classList.add('show');
     setTimeout(() => {
       toast.classList.remove('show');
@@ -245,8 +246,8 @@
     ctx.fillStyle = bgGrad;
     ctx.fill();
 
-    // Subtle metallic plate texture / noise effect
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+    // Subtle metallic plate texture / sheen
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.04)';
     ctx.fillRect(0, 0, pxW, pxH / 2);
 
     ctx.restore();
@@ -277,17 +278,12 @@
       ctx.restore();
     }
 
-    // 4. Draw BRTA Watermark & Hologram Emblem (Authentic Feature)
-    if (state.hologram) {
-      drawBRTAHologram(ctx, pxW, pxH, theme);
-    }
-
-    // 5. Draw Screw Holes (Mounting Marks)
+    // 4. Draw Screw Holes if toggled on
     if (state.screwHoles) {
       drawScrewHoles(ctx, pxW, pxH, theme);
     }
 
-    // 6. Draw Registration Text
+    // 5. Draw Clean Registration Text (No logo/hologram before text!)
     drawRegistrationText(ctx, pxW, pxH, theme);
 
     // Update Sheen Overlay visibility
@@ -309,48 +305,7 @@
     c.closePath();
   }
 
-  // Draw BRTA Hologram / Bangladesh Emblem
-  function drawBRTAHologram(c, w, h, theme) {
-    c.save();
-    // Position: Left vertical center or upper left corner
-    const size = Math.min(w * 0.08, h * 0.42, 28 * SCALE);
-    const cx = size * 1.1;
-    const cy = h / 2;
-
-    // Holographic Silver/Green circle
-    c.beginPath();
-    c.arc(cx, cy, size / 2, 0, Math.PI * 2);
-    const holoGrad = c.createRadialGradient(cx - size * 0.2, cy - size * 0.2, size * 0.1, cx, cy, size / 2);
-    holoGrad.addColorStop(0, '#e2e8f0');
-    holoGrad.addColorStop(0.4, '#10b981');
-    holoGrad.addColorStop(0.7, '#0284c7');
-    holoGrad.addColorStop(1, '#6366f1');
-    c.fillStyle = holoGrad;
-    c.globalAlpha = 0.85;
-    c.fill();
-
-    // Inner red circle (Bangladesh flag emblem motif)
-    c.beginPath();
-    c.arc(cx, cy, size * 0.22, 0, Math.PI * 2);
-    c.fillStyle = '#dc2626';
-    c.globalAlpha = 0.9;
-    c.fill();
-
-    // Hologram micro-border
-    c.strokeStyle = 'rgba(255, 255, 255, 0.7)';
-    c.lineWidth = 1.5;
-    c.stroke();
-
-    // Small BRTA Security Text on bottom of badge
-    c.font = `bold ${Math.max(8, Math.round(size * 0.18))}px "Inter", sans-serif`;
-    c.fillStyle = '#ffffff';
-    c.textAlign = 'center';
-    c.fillText('BD', cx, cy + size * 0.1);
-
-    c.restore();
-  }
-
-  // Draw Authentic Screw Holes
+  // Draw Screw Holes
   function drawScrewHoles(c, w, h, theme) {
     c.save();
     const holeRadius = Math.max(3, 2.5 * SCALE); // ~2.5mm hole radius
@@ -378,7 +333,7 @@
       // Outer washer shadow
       c.beginPath();
       c.arc(pos.x, pos.y, holeRadius + 2.5, 0, Math.PI * 2);
-      c.fillStyle = 'rgba(0, 0, 0, 0.18)';
+      c.fillStyle = 'rgba(0, 0, 0, 0.15)';
       c.fill();
 
       // Metallic Ring
@@ -400,14 +355,14 @@
     c.restore();
   }
 
-  // Draw Registration Plate Text
+  // Draw Registration Plate Text (Perfect Pure Center, No Logo)
   function drawRegistrationText(c, w, h, theme) {
     c.save();
     c.textAlign = 'center';
     c.textBaseline = 'middle';
 
-    const textOffsetLeft = state.hologram ? (w * 0.04) : 0;
-    const centerX = (w / 2) + textOffsetLeft;
+    // Pure Center (No logo or emblem offset!)
+    const centerX = w / 2;
 
     if (state.lines === 1) {
       // ─── Single Line Layout (e.g. Motorcycle Front 285x50mm, Scooter 250x55mm) ───
@@ -420,8 +375,8 @@
       let fontSize = Math.round(h * 0.58);
       c.font = `900 ${fontSize}px "Noto Sans Bengali", sans-serif`;
 
-      // Reduce font size if text overflows width (leaving padding)
-      const maxAvailableW = w * 0.82;
+      // Reduce font size if text overflows width (leaving safe side margins)
+      const maxAvailableW = w * 0.88;
       while (c.measureText(text).width > maxAvailableW && fontSize > 14) {
         fontSize -= 2;
         c.font = `900 ${fontSize}px "Noto Sans Bengali", sans-serif`;
@@ -432,7 +387,7 @@
       // 3D Emboss Effect
       if (state.emboss3d) {
         // Highlight (top-left)
-        c.fillStyle = 'rgba(255, 255, 255, 0.35)';
+        c.fillStyle = 'rgba(255, 255, 255, 0.4)';
         c.fillText(text, centerX - 1.5, centerY - 1.5);
 
         // Shadow (bottom-right)
@@ -454,7 +409,7 @@
         line2 = convertToBanglaDigits(line2);
       }
 
-      const maxAvailableW = w * 0.82;
+      const maxAvailableW = w * 0.88;
 
       // Top line Font Size
       let font1Size = Math.round(h * 0.32);
@@ -465,7 +420,7 @@
       }
 
       // Bottom line Font Size (digits are usually bolder & larger)
-      let font2Size = Math.round(h * 0.38);
+      let font2Size = Math.round(h * 0.40);
       c.font = `900 ${font2Size}px "Noto Sans Bengali", sans-serif`;
       while (c.measureText(line2).width > maxAvailableW && font2Size > 14) {
         font2Size -= 2;
@@ -475,9 +430,9 @@
       const y1 = h * 0.28;
       const y2 = h * 0.73;
 
-      // Center Divider Line between Line 1 and Line 2 (Authentic BRTA plate feature)
+      // Center Divider Line between Line 1 and Line 2
       const dividerY = Math.round(h * 0.50);
-      const dividerW = Math.round(w * 0.70);
+      const dividerW = Math.round(w * 0.72);
       c.save();
       c.strokeStyle = theme.divider || theme.border;
       c.lineWidth = Math.max(1, Math.round(0.8 * SCALE));
@@ -491,7 +446,7 @@
       // 3D Emboss for Line 1
       if (state.emboss3d) {
         c.font = `800 ${font1Size}px "Noto Sans Bengali", sans-serif`;
-        c.fillStyle = 'rgba(255, 255, 255, 0.3)';
+        c.fillStyle = 'rgba(255, 255, 255, 0.35)';
         c.fillText(line1, centerX - 1.2, y1 - 1.2);
         c.fillStyle = 'rgba(0, 0, 0, 0.4)';
         c.fillText(line1, centerX + 1.8, y1 + 1.8);
@@ -504,7 +459,7 @@
       // 3D Emboss for Line 2
       if (state.emboss3d) {
         c.font = `900 ${font2Size}px "Noto Sans Bengali", sans-serif`;
-        c.fillStyle = 'rgba(255, 255, 255, 0.3)';
+        c.fillStyle = 'rgba(255, 255, 255, 0.35)';
         c.fillText(line2, centerX - 1.2, y2 - 1.2);
         c.fillStyle = 'rgba(0, 0, 0, 0.45)';
         c.fillText(line2, centerX + 2, y2 + 2);
@@ -691,11 +646,6 @@
     renderCanvas();
   });
 
-  hologramToggle.addEventListener('change', () => {
-    state.hologram = hologramToggle.checked;
-    renderCanvas();
-  });
-
   emboss3dToggle.addEventListener('change', () => {
     state.emboss3d = emboss3dToggle.checked;
     renderCanvas();
@@ -763,10 +713,10 @@
       link.download = `RoyalTech-Plate-${safeName || 'NumberPlate'}.jpg`;
       link.href = dataUrl;
       link.click();
-      showToast('JPG ফাইল সফলভাবে ডাউনলোড হয়েছে!', 'fa-file-image');
+      showToast('JPG ফাইল সফলভাবে ডাউনলোড হয়েছে!');
     } catch (e) {
       console.error(e);
-      showToast('ডাউনলোড সম্পন্ন করা যায়নি', 'fa-circle-exclamation');
+      showToast('ডাউনলোড সম্পন্ন করা যায়নি');
     }
   });
 
@@ -780,10 +730,10 @@
       link.download = `RoyalTech-Plate-${safeName || 'NumberPlate'}.png`;
       link.href = dataUrl;
       link.click();
-      showToast('PNG ফাইল সফলভাবে ডাউনলোড হয়েছে!', 'fa-image');
+      showToast('PNG ফাইল সফলভাবে ডাউনলোড হয়েছে!');
     } catch (e) {
       console.error(e);
-      showToast('ডাউনলোড সম্পন্ন করা যায়নি', 'fa-circle-exclamation');
+      showToast('ডাউনলোড সম্পন্ন করা যায়নি');
     }
   });
 
@@ -791,7 +741,7 @@
   downloadPdfBtn.addEventListener('click', () => {
     try {
       if (!window.jspdf || !window.jspdf.jsPDF) {
-        showToast('jsPDF লাইব্রেরি লোড হতে পারেনি', 'fa-circle-exclamation');
+        showToast('jsPDF লাইব্রেরি লোড হতে পারেনি');
         return;
       }
 
@@ -799,7 +749,7 @@
       const wMm = state.widthMm;
       const hMm = state.heightMm;
 
-      // Decide orientation: if plate is wider than 200mm, landscape A4 (297 x 210mm) is ideal
+      // Decide orientation: if plate is wider than 190mm, landscape A4 (297 x 210mm) is ideal
       const isLandscape = wMm > 190;
       const orientation = isLandscape ? 'landscape' : 'portrait';
       const doc = new jsPDF({
@@ -820,7 +770,7 @@
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(8);
       doc.setTextColor(100, 116, 139);
-      doc.text(`Plate Size: ${wMm} mm × ${hMm} mm | Print without scaling (Actual Size 100%) | Verification: Passed`, 15, 17);
+      doc.text(`Plate Size: ${wMm} mm × ${hMm} mm | Print at 100% (No Scaling) | Clean Plate Output`, 15, 17);
 
       // Thin divider
       doc.setDrawColor(203, 213, 225);
@@ -874,10 +824,10 @@
       const safeName = (state.lines === 1 ? state.singleLineText : `${state.line1Text}-${state.line2Text}`)
         .replace(/[\s\/-]+/g, '_');
       doc.save(`RoyalTech-A4-PrintSheet-${safeName || 'NumberPlate'}.pdf`);
-      showToast('A4 প্রিন্টিং PDF সফলভাবে তৈরি হয়েছে!', 'fa-file-pdf');
+      showToast('A4 প্রিন্টিং PDF সফলভাবে তৈরি হয়েছে!');
     } catch (e) {
       console.error(e);
-      showToast('PDF তৈরিতে সমস্যা হয়েছে', 'fa-circle-exclamation');
+      showToast('PDF তৈরিতে সমস্যা হয়েছে');
     }
   });
 
@@ -909,17 +859,17 @@
     try {
       canvas.toBlob(async blob => {
         if (!blob) {
-          showToast('ইমেজ তৈরি ব্যর্থ হয়েছে', 'fa-circle-exclamation');
+          showToast('ইমেজ তৈরি ব্যর্থ হয়েছে');
           return;
         }
         await navigator.clipboard.write([
           new ClipboardItem({ 'image/png': blob })
         ]);
-        showToast('প্লেট ইমেজ ক্লিপবোর্ডে কপি হয়েছে! পেস্ট (Ctrl+V) করতে পারেন।');
+        showToast('প্লেট ইমেজ ক্লিপবোর্ডে কপি হয়েছে! পেস্ট করতে পারেন।');
       });
     } catch (err) {
       console.warn('Clipboard API write failed, trying fallback:', err);
-      showToast('ব্রাউজারে কপি পারমিশন প্রয়োজন', 'fa-circle-exclamation');
+      showToast('ব্রাউজারে কপি পারমিশন প্রয়োজন');
     }
   });
 

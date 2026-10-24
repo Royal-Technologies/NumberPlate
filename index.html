@@ -14,9 +14,6 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-
   <!-- Google Fonts: Noto Sans Bengali & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -65,14 +62,9 @@
           </a>
 
           <div>
-            <div class="flex items-center gap-2">
-              <h1 class="font-bangla font-extrabold text-lg sm:text-xl tracking-tight text-[var(--text-main)]">
-                নম্বর প্লেট জেনারেটর
-              </h1>
-              <span class="hidden md:inline-flex brand-badge">
-                <i class="fa-solid fa-crown text-[10px] text-amber-400"></i> Royal Edition
-              </span>
-            </div>
+            <h1 class="font-bangla font-extrabold text-lg sm:text-xl tracking-tight text-[var(--text-main)]">
+              নম্বর প্লেট জেনারেটর
+            </h1>
             <p class="text-xs text-[var(--text-muted)] flex items-center gap-1.5 font-medium">
               <span>Presented by</span>
               <span class="font-bold gradient-text">Royal Technologies</span>
@@ -80,19 +72,27 @@
           </div>
         </div>
 
-        <!-- Controls: Theme Toggle & Links -->
-        <div class="flex items-center gap-2.5 sm:gap-4">
-          <!-- Light / Dark Mode Toggle Button -->
+        <!-- Controls: Theme Toggle -->
+        <div class="flex items-center gap-2.5">
+          <!-- Light / Dark Mode Toggle Button with Guaranteed Inline SVGs -->
           <button id="themeToggleBtn" class="theme-toggle-btn" title="ডার্ক / লাইট মুড পরিবর্তন করুন (Toggle Dark/Light Mode)">
-            <i id="themeIcon" class="fa-solid fa-sun text-amber-400 text-lg"></i>
+            <!-- Sun Icon (for Dark Mode) -->
+            <svg id="sunIcon" class="w-5 h-5 text-amber-400 transition-transform duration-300 hover:rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4.5" fill="#f59e0b" stroke="#fbbf24"></circle>
+              <line x1="12" y1="1.5" x2="12" y2="4"></line>
+              <line x1="12" y1="20" x2="12" y2="22.5"></line>
+              <line x1="4.22" y1="4.22" x2="5.99" y2="5.99"></line>
+              <line x1="18.01" y1="18.01" x2="19.78" y2="19.78"></line>
+              <line x1="1.5" y1="12" x2="4" y2="12"></line>
+              <line x1="20" y1="12" x2="22.5" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.99" y2="18.01"></line>
+              <line x1="18.01" y1="5.99" x2="19.78" y2="4.22"></line>
+            </svg>
+            <!-- Moon Icon (for Light Mode) -->
+            <svg id="moonIcon" class="w-5 h-5 text-indigo-600 hidden transition-transform duration-300 hover:-rotate-12" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M21.64 13a1 1 0 0 0-1.05-.14 8.05 8.05 0 0 1-3.37.73A8.15 8.15 0 0 1 9.08 5.49a8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36 10.14 10.14 0 1 0 22 14.05a1 1 0 0 0-.36-1.05z"/>
+            </svg>
           </button>
-
-          <!-- GitHub Repo Button -->
-          <a href="https://github.com/Royal-Technologies/NumberPlate" target="_blank" rel="noopener noreferrer"
-             class="btn-outline hidden sm:inline-flex">
-            <i class="fa-brands fa-github text-base"></i>
-            <span>GitHub</span>
-          </a>
         </div>
       </div>
     </div>
@@ -104,7 +104,7 @@
     <!-- Hero Title / Intro -->
     <div class="text-center mb-8">
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold mb-3">
-        <i class="fa-solid fa-sparkles text-amber-400"></i>
+        <span>✨</span>
         <span>বাংলাদেশ ভেহিক্যাল নম্বর প্লেট ডিজাইন ও প্রিন্টিং স্টুডিও</span>
       </div>
       <h2 class="font-bangla text-2xl sm:text-4xl font-extrabold text-[var(--text-main)] mb-2 tracking-tight">
@@ -118,27 +118,27 @@
     <!-- Quick Presets -->
     <div class="mb-6 p-3.5 glass-card flex flex-wrap items-center justify-between gap-3">
       <div class="flex items-center gap-2 text-xs font-bold text-[var(--text-muted)]">
-        <i class="fa-solid fa-bolt text-amber-400"></i>
+        <span class="text-amber-400">⚡</span>
         <span>দ্রুত প্রি-সেট / Quick Presets:</span>
       </div>
       <div class="flex flex-wrap items-center gap-2" id="presetButtons">
         <button class="preset-pill active" data-preset="bike-front">
-          <i class="fa-solid fa-motorcycle text-indigo-400 mr-1"></i> বাইক সামনে (285×50)
+          🏍️ বাইক সামনে (285×50)
         </button>
         <button class="preset-pill" data-preset="bike-rear">
-          <i class="fa-solid fa-motorcycle text-indigo-400 mr-1"></i> বাইক পেছনে (200×100)
+          🛵 বাইক পেছনে (200×100)
         </button>
         <button class="preset-pill" data-preset="car-horizontal">
-          <i class="fa-solid fa-car text-cyan-400 mr-1"></i> প্রাইভেট কার লম্বা (520×110)
+          🚗 প্রাইভেট কার লম্বা (520×110)
         </button>
         <button class="preset-pill" data-preset="car-square">
-          <i class="fa-solid fa-truck-pickup text-emerald-400 mr-1"></i> জিপ / স্কয়ার কার (340×200)
+          🚙 জিপ / স্কয়ার কার (340×200)
         </button>
         <button class="preset-pill" data-preset="cng-auto">
-          <i class="fa-solid fa-taxi text-yellow-400 mr-1"></i> সিএনজি / হলুদ প্লেট (285×165)
+          🛺 সিএনজি / হলুদ প্লেট (285×165)
         </button>
         <button class="preset-pill" data-preset="ev-car">
-          <i class="fa-solid fa-leaf text-green-400 mr-1"></i> পরিবেশবান্ধব সবুজ ইভি
+          🌿 পরিবেশবান্ধব সবুজ ইভি
         </button>
       </div>
     </div>
@@ -153,7 +153,7 @@
         <div class="glass-card">
           <div class="card-header-bar">
             <div class="card-header-title">
-              <i class="fa-solid fa-ruler-combined"></i>
+              <span class="text-indigo-400">📐</span>
               <span>যানবাহন ও প্লেটের মাপ <span class="text-xs font-normal text-[var(--text-muted)] font-sans">/ Plate Size</span></span>
             </div>
             <span class="text-xs font-bangla px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-semibold">
@@ -165,7 +165,7 @@
           <div class="vehicle-grid" id="vehicleSizeGrid">
             <!-- 1. Motorcycle Front (Default!) -->
             <div class="vehicle-option-card active" data-type="bike-front" data-w="285" data-h="50" data-lines="1">
-              <i class="fa-solid fa-motorcycle"></i>
+              <div class="text-2xl mb-1">🏍️</div>
               <div class="vehicle-name-bn">মোটরসাইকেল (সামনে)</div>
               <div class="vehicle-name-en">Bike Front (Default)</div>
               <div class="vehicle-dimen-tag">285 × 50 mm</div>
@@ -173,7 +173,7 @@
 
             <!-- 2. Motorcycle Rear (Square / Two-line) -->
             <div class="vehicle-option-card" data-type="bike-rear" data-w="200" data-h="100" data-lines="2">
-              <i class="fa-solid fa-motorcycle"></i>
+              <div class="text-2xl mb-1">🛵</div>
               <div class="vehicle-name-bn">মোটরসাইকেল (পেছনে)</div>
               <div class="vehicle-name-en">Bike Rear (Two-line)</div>
               <div class="vehicle-dimen-tag">200 × 100 mm</div>
@@ -181,7 +181,7 @@
 
             <!-- 3. Scooter -->
             <div class="vehicle-option-card" data-type="scooter" data-w="250" data-h="55" data-lines="1">
-              <i class="fa-solid fa-moped"></i>
+              <div class="text-2xl mb-1">🛴</div>
               <div class="vehicle-name-bn">স্কুটার</div>
               <div class="vehicle-name-en">Scooter Standard</div>
               <div class="vehicle-dimen-tag">250 × 55 mm</div>
@@ -189,7 +189,7 @@
 
             <!-- 4. Private Car Long Horizontal -->
             <div class="vehicle-option-card" data-type="car-long" data-w="520" data-h="110" data-lines="2">
-              <i class="fa-solid fa-car-side"></i>
+              <div class="text-2xl mb-1">🚗</div>
               <div class="vehicle-name-bn">প্রাইভেট কার / জিপ</div>
               <div class="vehicle-name-en">Car Horizontal</div>
               <div class="vehicle-dimen-tag">520 × 110 mm</div>
@@ -197,7 +197,7 @@
 
             <!-- 5. Car / SUV / Pickup Square -->
             <div class="vehicle-option-card" data-type="car-square" data-w="340" data-h="200" data-lines="2">
-              <i class="fa-solid fa-truck-pickup"></i>
+              <div class="text-2xl mb-1">🚙</div>
               <div class="vehicle-name-bn">স্কয়ার কার / এসইউভি</div>
               <div class="vehicle-name-en">Square Plate / SUV</div>
               <div class="vehicle-dimen-tag">340 × 200 mm</div>
@@ -205,18 +205,18 @@
 
             <!-- 6. CNG / Auto Rickshaw -->
             <div class="vehicle-option-card" data-type="cng" data-w="285" data-h="165" data-lines="2">
-              <i class="fa-solid fa-taxi"></i>
+              <div class="text-2xl mb-1">🛺</div>
               <div class="vehicle-name-bn">সিএনজি / অটো</div>
               <div class="vehicle-name-en">Three-Wheeler / CNG</div>
               <div class="vehicle-dimen-tag">285 × 165 mm</div>
             </div>
           </div>
 
-          <!-- Custom Dimension Inputs (Accordion / Expandable) -->
+          <!-- Custom Dimension Inputs -->
           <div class="mt-4 pt-4 border-t border-[var(--border-color)]">
             <div class="flex items-center justify-between mb-3">
               <span class="text-xs font-bold text-[var(--text-muted)] flex items-center gap-1.5">
-                <i class="fa-solid fa-sliders text-indigo-400"></i>
+                <span>⚙️</span>
                 <span>কাস্টম সাইজ অ্যাডজাস্টমেন্ট (Custom Dimension in mm):</span>
               </span>
               <button id="resetSizeBtn" class="text-xs text-indigo-400 hover:text-indigo-300 font-semibold underline">
@@ -247,7 +247,7 @@
         <div class="glass-card">
           <div class="card-header-bar">
             <div class="card-header-title">
-              <i class="fa-solid fa-keyboard"></i>
+              <span class="text-indigo-400">⌨️</span>
               <span>নিবন্ধন ও নম্বর তথ্য <span class="text-xs font-normal text-[var(--text-muted)] font-sans">/ Registration Text</span></span>
             </div>
             <!-- Auto English-to-Bangla digits toggle -->
@@ -357,7 +357,7 @@
                 <input type="text" id="singleLineTextInput" class="form-input font-bangla text-lg font-bold pr-10"
                        value="ঢাকা মেট্রো-হ ১২-৩৪৫৬" placeholder="উদাহরণ: ঢাকা মেট্রো-হ ১২-৩৪৫৬" />
                 <button id="clearSingleLineBtn" class="absolute right-3 top-3 text-[var(--text-subtle)] hover:text-[var(--text-main)]" title="মুছে ফেলুন">
-                  <i class="fa-solid fa-circle-xmark"></i>
+                  ✕
                 </button>
               </div>
               <p class="text-[11px] text-[var(--text-muted)] mt-1 font-bangla">
@@ -391,7 +391,7 @@
         <div class="glass-card">
           <div class="card-header-bar">
             <div class="card-header-title">
-              <i class="fa-solid fa-palette"></i>
+              <span class="text-indigo-400">🎨</span>
               <span>প্লেটের রঙ ও ক্যাটাগরি <span class="text-xs font-normal text-[var(--text-muted)] font-sans">/ Plate Theme</span></span>
             </div>
             <span class="text-xs text-[var(--text-muted)] font-bangla">বিআরটিএ মানসম্মত</span>
@@ -449,7 +449,7 @@
         <div class="glass-card">
           <div class="card-header-bar">
             <div class="card-header-title">
-              <i class="fa-solid fa-border-all"></i>
+              <span class="text-indigo-400">🖼️</span>
               <span>বর্ডার ফ্রেম ও অতিরিক্ত অপশন <span class="text-xs font-normal text-[var(--text-muted)] font-sans">/ Frame & Details</span></span>
             </div>
           </div>
@@ -484,23 +484,11 @@
             <!-- Screw Holes Toggle -->
             <div class="toggle-switch-wrapper">
               <div>
-                <div class="font-bangla font-bold text-sm text-[var(--text-main)]">স্ক্রু হোল ড্রিল মার্ক (Screw Holes)</div>
-                <div class="text-xs text-[var(--text-muted)]">প্লেটের দুই পাশে স্ক্রু ফিটিং পয়েন্ট দেখাবে</div>
+                <div class="font-bangla font-bold text-sm text-[var(--text-main)]">স্ক্রু হোল মার্ক (Screw Holes)</div>
+                <div class="text-xs text-[var(--text-muted)]">প্লেটের দুই পাশে ড্রিল ও ফিটিং মার্ক দেখাবে</div>
               </div>
               <label class="toggle-switch">
-                <input type="checkbox" id="screwHolesToggle" checked />
-                <span class="toggle-slider"></span>
-              </label>
-            </div>
-
-            <!-- Hologram / Bangladesh Emblem Watermark -->
-            <div class="toggle-switch-wrapper">
-              <div>
-                <div class="font-bangla font-bold text-sm text-[var(--text-main)]">বিআরটিএ হলোগ্রাম ও ব্যাজ (BRTA Hologram)</div>
-                <div class="text-xs text-[var(--text-muted)]">আসল ডিজিটাল প্লেটের মতো বাংলাদেশ লোগো ও হলোগ্রাম</div>
-              </div>
-              <label class="toggle-switch">
-                <input type="checkbox" id="hologramToggle" checked />
+                <input type="checkbox" id="screwHolesToggle" />
                 <span class="toggle-slider"></span>
               </label>
             </div>
@@ -508,7 +496,7 @@
             <!-- Embossed 3D Metal Effect -->
             <div class="toggle-switch-wrapper">
               <div>
-                <div class="font-bangla font-bold text-sm text-[var(--text-main)]">৩ডি এমবসড স্ট্যাম্পড মেটাল ইফেক্ট (3D Emboss)</div>
+                <div class="font-bangla font-bold text-sm text-[var(--text-main)]">৩ডি এমবসড ইফেক্ট (3D Emboss)</div>
                 <div class="text-xs text-[var(--text-muted)]">ধাতব প্লেটের মতো উঁচু খোদাই করা ত্রিমাত্রিক টেক্সট</div>
               </div>
               <label class="toggle-switch">
@@ -541,7 +529,7 @@
         <div class="glass-card">
           <div class="card-header-bar">
             <div class="card-header-title">
-              <i class="fa-solid fa-eye"></i>
+              <span class="text-indigo-400">👁️</span>
               <span>লাইভ ক্যানভাস প্রিভিউ <span class="text-xs font-normal text-[var(--text-muted)] font-sans">/ Live Preview</span></span>
             </div>
             <div class="flex items-center gap-1.5 text-xs text-emerald-400 font-semibold">
@@ -562,12 +550,12 @@
           <!-- Metadata info bar -->
           <div class="mt-4 pt-3 border-t border-[var(--border-color)] flex items-center justify-between text-xs text-[var(--text-muted)]">
             <div class="flex items-center gap-2">
-              <i class="fa-solid fa-ruler text-indigo-400"></i>
+              <span class="text-indigo-400">📏</span>
               <span class="font-medium">মাপ:</span>
               <span id="dimensionDisplayBadge" class="font-bold text-[var(--text-main)]">285 × 50 mm</span>
             </div>
             <div class="flex items-center gap-2">
-              <i class="fa-solid fa-expand text-cyan-400"></i>
+              <span class="text-cyan-400">🔍</span>
               <span class="font-medium">রেন্ডার স্কেল:</span>
               <span class="font-bold text-[var(--text-main)]">300 DPI High-Res</span>
             </div>
@@ -578,7 +566,7 @@
         <div class="glass-card">
           <div class="card-header-bar">
             <div class="card-header-title">
-              <i class="fa-solid fa-download"></i>
+              <span class="text-indigo-400">💾</span>
               <span>ডাউনলোড ও প্রিন্টিং <span class="text-xs font-normal text-[var(--text-muted)] font-sans">/ Export & Print</span></span>
             </div>
             <span class="text-[11px] text-indigo-400 font-semibold font-bangla">১০০% ফ্রি</span>
@@ -592,28 +580,28 @@
           <div class="action-buttons-grid">
             <!-- JPG -->
             <button id="downloadJpgBtn" class="btn-glow btn-blue" title="হাই-কোয়ালিটি জেপিজি ডাউনলোড">
-              <i class="fa-solid fa-file-image"></i>
+              <span class="text-xl mb-1">🖼️</span>
               <span>JPG ফাইল</span>
               <span class="btn-sub">300 DPI Image</span>
             </button>
 
             <!-- PNG -->
             <button id="downloadPngBtn" class="btn-glow btn-purple" title="স্বচ্ছ ব্যাকগ্রাউন্ড সহ পিএনজি">
-              <i class="fa-solid fa-image"></i>
+              <span class="text-xl mb-1">🎨</span>
               <span>PNG ফাইল</span>
               <span class="btn-sub">Crisp Quality</span>
             </button>
 
             <!-- PDF A4 Sheet -->
             <button id="downloadPdfBtn" class="btn-glow btn-rose" title="A4 পেপারে সত্যিকার ১:১ স্কেলে প্রিন্টের জন্য">
-              <i class="fa-solid fa-file-pdf"></i>
+              <span class="text-xl mb-1">📄</span>
               <span>A4 PDF শিট</span>
               <span class="btn-sub">১০০% আসল মাপ</span>
             </button>
 
             <!-- Copy to Clipboard -->
             <button id="copyImageBtn" class="btn-glow btn-emerald" title="ক্লিপবোর্ডে কপি করুন">
-              <i class="fa-solid fa-clipboard-check"></i>
+              <span class="text-xl mb-1">📋</span>
               <span>ক্লিপবোর্ড কপি</span>
               <span class="btn-sub">Copy Image</span>
             </button>
@@ -621,7 +609,7 @@
 
           <!-- PDF Sheet Notice -->
           <div class="mt-4 p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-xs text-[var(--text-muted)] font-bangla leading-relaxed flex items-start gap-2.5">
-            <i class="fa-solid fa-circle-check text-indigo-400 mt-0.5 text-sm"></i>
+            <span class="text-indigo-400 mt-0.5 text-base">ℹ️</span>
             <div>
               <strong class="text-[var(--text-main)]">A4 প্রিন্টিং শিটের বৈশিষ্ট্য:</strong>
               পিডিএফ ডাউনলোডে সঠিক স্কেলিং রুলার ও চার কোণে কাটার ক্রপ মার্ক (Crop Marks) থাকবে। মোটরসাইকেল প্লেটের ক্ষেত্রে একটি A4 পেপারে ৩টি কপি এবং স্কুটারের ক্ষেত্রে ২টি কপি সাজানো থাকে।
@@ -632,7 +620,7 @@
         <!-- QUICK GUIDELINE CARD -->
         <div class="glass-card">
           <div class="flex items-center gap-2 mb-2 text-sm font-bold text-[var(--text-main)] font-bangla">
-            <i class="fa-solid fa-circle-question text-cyan-400"></i>
+            <span class="text-cyan-400">💡</span>
             <span>বিআরটিএ নম্বর প্লেট ব্যবহারের সাধারণ নিয়ম</span>
           </div>
           <ul class="text-xs text-[var(--text-muted)] space-y-1.5 font-bangla list-disc list-inside">
@@ -664,7 +652,7 @@
             Presented by <span class="font-semibold text-indigo-400">Royal Technologies</span> — All rights reserved © 2026
           </p>
           <p class="text-[11px] text-[var(--text-subtle)] mt-0.5">
-            Made with <i class="fa-solid fa-heart text-rose-500"></i> in Bangladesh for riders, motorists & workshops.
+            Made with ❤️ in Bangladesh for riders, motorists & workshops.
           </p>
         </div>
 
@@ -672,7 +660,9 @@
         <div class="flex items-center justify-center gap-4 text-xs font-semibold text-[var(--text-muted)]">
           <a href="https://github.com/Royal-Technologies/NumberPlate" target="_blank" rel="noopener noreferrer"
              class="hover:text-indigo-400 transition-colors flex items-center gap-1.5">
-            <i class="fa-brands fa-github text-sm"></i>
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+            </svg>
             <span>GitHub Repository</span>
           </a>
           <span>•</span>
@@ -687,7 +677,7 @@
 
   <!-- Toast Notification -->
   <div id="toast">
-    <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+    <span class="text-emerald-400 text-lg">✓</span>
     <span id="toastMsg">ক্লিপবোর্ডে কপি করা হয়েছে!</span>
   </div>
 
