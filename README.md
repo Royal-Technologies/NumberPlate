@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <strong>Presented by <a href="https://github.com/Royal-Technologies">Royal Technologies</a></strong><br>
+  <strong>Presented by <a href="https://www.royaltechbd.com/">Royal Technologies</a></strong><br>
   <em>একটি আধুনিক, ওপেন-সোর্স এবং রিয়েল-টাইম বাংলাদেশ ভেহিক্যাল নম্বর প্লেট জেনারেটর টুল।</em>
 </p>
 
@@ -50,8 +50,9 @@
 ---
 
 ### ৩. নিখুঁত ও বাস্তবসম্মত ডিটেইলিং (Authentic Details)
-* 💎 **বিআরটিএ হলোগ্রাম ও ব্যাজ:** আসল ডিজিটাল প্লেটের ন্যায় হলোগ্রাফিক গ্রিন-রেড সিল ও বাংলাদেশ সিকিউরিটি মার্ক।
-* 🔩 **স্ক্রু হোল ফিটিং পয়েন্ট:** প্রিন্ট করে কাটাকাটি বা ড্রিল করার সুবিধার্থে উভয় পাশে স্ক্রু হোল ও ওয়াশার মার্ক।
+* 🔤 **বাংলা ফন্ট ও সাইজ কাস্টমাইজেশন:** বিআরটিএ স্ট্যান্ডার্ড Noto Sans, Hind Siliguri, Anek Bangla, Tiro Bangla এবং Mina ফন্ট পছন্দের অপশন এবং ফন্ট সাইজ স্কেলার স্লাইডার (৭০% থেকে ১৪০%)।
+* 💎 **বিআরটিএ স্ট্যান্ডার্ড ফরম্যাট:** নম্বরপ্লেটের পরিষ্কার টেক্সট এলাইনমেন্ট ও সঠিক মার্জিন।
+* 🔩 **স্ক্রু হোল ফিটিং পয়েন্ট:** ড্রিল বা কাটার মার্ক অপশন।
 * 🪙 **৩ডি এমবসড স্ট্যাম্পড মেটাল ইফেক্ট:** মেটালিক প্লেটের মতো ত্রিমাত্রিক উঁচু-নিচু খোদাই করা টেক্সট।
 * 🪞 **রিফ্লেক্টিভ গ্লস ওভারলে:** রিয়েল-টাইমে চকচকে আলোর প্রতিফলন প্রিভিউ।
 * 🔲 **ফ্রেম বর্ডার থিকনেস:** বর্ডার ছাড়া, পাতলা (0.5 mm), মাঝারি স্ট্যান্ডার্ড (1.0 mm), এবং মোটা (2.0 mm) বর্ডার।
@@ -130,10 +131,11 @@ NumberPlate/
 
 এই প্রজেক্টটি [MIT License](LICENSE) এর আওতাধীন একটি ওপেন সোর্স প্রজেক্ট।
 
-* **উদ্যোক্তা ও প্রস্তুতকারক:** [Royal Technologies](https://github.com/Royal-Technologies)
+* **উদ্যোক্তা ও প্রস্তুতকারক:** [Royal Technologies](https://www.royaltechbd.com/) (ওয়েবসাইট: [www.royaltechbd.com](https://www.royaltechbd.com/))
+* **গিটহাব রিপোজিটরি:** [GitHub Repository](https://github.com/Royal-Technologies/NumberPlate)
 * **যোগাযোগ ও সাপোর্ট:** [GitHub Issues](https://github.com/Royal-Technologies/NumberPlate/issues)
 
 ---
 <p align="center">
-  <b>Designed & Developed with ❤️ by Royal Technologies</b>
+  <b>Designed & Developed with ❤️ by <a href="https://www.royaltechbd.com/">Royal Technologies</a></b>
 </p>

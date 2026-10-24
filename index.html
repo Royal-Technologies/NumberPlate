@@ -14,10 +14,10 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Google Fonts: Noto Sans Bengali & Inter -->
+  <!-- Google Fonts: Multiple Bengali Fonts & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@400;600;700;800&family=Hind+Siliguri:wght@400;600;700&family=Inter:wght@300;400;500;600;700;800&family=Mina:wght@400;700&family=Noto+Sans+Bengali:wght@400;500;600;700;800;900&family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet" />
 
   <!-- jsPDF CDN for 1:1 Scale A4 Printing -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -35,7 +35,7 @@
         <!-- Brand Logo + Identity -->
         <div class="flex items-center gap-3 sm:gap-4">
           <!-- Royal Technologies Vector Logo -->
-          <a href="#" class="brand-logo-container group" title="Royal Technologies">
+          <a href="https://www.royaltechbd.com/" target="_blank" rel="noopener noreferrer" class="brand-logo-container group" title="Royal Technologies - www.royaltechbd.com">
             <svg class="w-8 h-8 transition-transform group-hover:scale-110" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect width="120" height="120" rx="28" fill="#1e1b4b"/>
               <rect x="2" y="2" width="116" height="116" rx="26" stroke="#818cf8" stroke-width="2" stroke-opacity="0.5"/>
@@ -67,7 +67,9 @@
             </h1>
             <p class="text-xs text-[var(--text-muted)] flex items-center gap-1.5 font-medium">
               <span>Presented by</span>
-              <span class="font-bold gradient-text">Royal Technologies</span>
+              <a href="https://www.royaltechbd.com/" target="_blank" rel="noopener noreferrer" class="font-bold gradient-text hover:underline" title="www.royaltechbd.com">
+                Royal Technologies
+              </a>
             </p>
           </div>
         </div>
@@ -381,6 +383,42 @@
                 </label>
                 <input type="text" id="line2TextInput" class="form-input font-bangla font-bold text-lg"
                        value="১২-৩৪৫৬" placeholder="১২-৩৪৫৬" />
+              </div>
+            </div>
+
+            <!-- Font Family & Font Size Customization -->
+            <div class="pt-4 border-t border-[var(--border-color)]">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 items-end">
+                <div>
+                  <label class="form-label">
+                    <span>ফন্ট নির্বাচন (Plate Font)</span>
+                    <span class="text-xs text-[var(--text-subtle)] font-sans">Font Family</span>
+                  </label>
+                  <select id="fontSelect" class="form-select font-bangla">
+                    <option value="'Noto Sans Bengali', sans-serif" selected>নোটো স্যান্স বাংলা (বিআরটিএ স্ট্যান্ডার্ড)</option>
+                    <option value="'Hind Siliguri', sans-serif">হিন্দ শিলিগুড়ি (Hind Siliguri - বোল্ড)</option>
+                    <option value="'Anek Bangla', sans-serif">অনেকা বাংলা (Anek Bangla - মডার্ন)</option>
+                    <option value="'Tiro Bangla', serif">তিরো বাংলা (Tiro Bangla - ক্লাসিক)</option>
+                    <option value="'Mina', sans-serif">মীনা (Mina - ক্লিন রাউন্ডেড)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <div class="flex items-center justify-between mb-1.5">
+                    <label class="form-label mb-0">
+                      <span>ফন্ট সাইজ (Font Scale)</span>
+                    </label>
+                    <div class="flex items-center gap-1.5">
+                      <span id="fontSizeDisplay" class="text-xs font-bold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-400">100%</span>
+                      <button id="resetFontSizeBtn" class="text-[11px] text-[var(--text-subtle)] hover:text-indigo-400 underline font-medium" title="সাইজ রিসেট করুন">রিসেট</button>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-[11px] text-[var(--text-subtle)] font-medium">ছোট</span>
+                    <input type="range" id="fontSizeSlider" min="70" max="140" value="100" step="5" class="w-full accent-indigo-500 cursor-pointer h-2 bg-slate-700 rounded-lg" />
+                    <span class="text-[11px] text-[var(--text-subtle)] font-medium">বড়</span>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -709,7 +747,7 @@
             <span class="brand-badge text-[10px]">v2.0 PRO</span>
           </div>
           <p class="text-xs text-[var(--text-muted)]">
-            Presented by <span class="font-semibold text-indigo-400">Royal Technologies</span> — All rights reserved © 2026
+            Presented by <a href="https://www.royaltechbd.com/" target="_blank" rel="noopener noreferrer" class="font-semibold text-indigo-400 hover:underline">Royal Technologies</a> — All rights reserved © 2026
           </p>
           <p class="text-[11px] text-[var(--text-subtle)] mt-0.5">
             Made with ❤️ in Bangladesh for riders, motorists & workshops.

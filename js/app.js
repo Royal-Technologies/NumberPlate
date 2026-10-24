@@ -74,7 +74,11 @@
     number: '১২-৩৪৫৬',
     singleLineText: 'ঢাকা মেট্রো-হ ১২-৩৪৫৬',
     line1Text: 'ঢাকা মেট্রো-হ',
-    line2Text: '১২-৩৪৫৬'
+    line2Text: '১২-৩৪৫৬',
+
+    // Typography
+    fontFamily: "'Noto Sans Bengali', sans-serif",
+    fontScale: 1.0
   };
 
   // ─── Color Themes Palette ──────────────────────────────────────
@@ -155,6 +159,12 @@
   const screwHolesToggle = document.getElementById('screwHolesToggle');
   const emboss3dToggle = document.getElementById('emboss3dToggle');
   const glossToggle = document.getElementById('glossToggle');
+
+  // Typography
+  const fontSelect = document.getElementById('fontSelect');
+  const fontSizeSlider = document.getElementById('fontSizeSlider');
+  const fontSizeDisplay = document.getElementById('fontSizeDisplay');
+  const resetFontSizeBtn = document.getElementById('resetFontSizeBtn');
 
   // Action Buttons
   const downloadJpgBtn = document.getElementById('downloadJpgBtn');
@@ -371,15 +381,15 @@
         text = convertToBanglaDigits(text);
       }
 
-      // Dynamic Font Size calculation to fit comfortably
-      let fontSize = Math.round(h * 0.58);
-      c.font = `900 ${fontSize}px "Noto Sans Bengali", sans-serif`;
+      // Dynamic Font Size calculation to fit comfortably with fontScale
+      let fontSize = Math.round(h * 0.58 * (state.fontScale || 1.0));
+      c.font = `900 ${fontSize}px ${state.fontFamily}`;
 
       // Reduce font size if text overflows width (leaving safe side margins)
       const maxAvailableW = w * 0.88;
       while (c.measureText(text).width > maxAvailableW && fontSize > 14) {
         fontSize -= 2;
-        c.font = `900 ${fontSize}px "Noto Sans Bengali", sans-serif`;
+        c.font = `900 ${fontSize}px ${state.fontFamily}`;
       }
 
       const centerY = h / 2;
@@ -412,19 +422,19 @@
       const maxAvailableW = w * 0.88;
 
       // Top line Font Size
-      let font1Size = Math.round(h * 0.32);
-      c.font = `800 ${font1Size}px "Noto Sans Bengali", sans-serif`;
+      let font1Size = Math.round(h * 0.32 * (state.fontScale || 1.0));
+      c.font = `800 ${font1Size}px ${state.fontFamily}`;
       while (c.measureText(line1).width > maxAvailableW && font1Size > 12) {
         font1Size -= 2;
-        c.font = `800 ${font1Size}px "Noto Sans Bengali", sans-serif`;
+        c.font = `800 ${font1Size}px ${state.fontFamily}`;
       }
 
       // Bottom line Font Size (digits are usually bolder & larger)
-      let font2Size = Math.round(h * 0.40);
-      c.font = `900 ${font2Size}px "Noto Sans Bengali", sans-serif`;
+      let font2Size = Math.round(h * 0.40 * (state.fontScale || 1.0));
+      c.font = `900 ${font2Size}px ${state.fontFamily}`;
       while (c.measureText(line2).width > maxAvailableW && font2Size > 14) {
         font2Size -= 2;
-        c.font = `900 ${font2Size}px "Noto Sans Bengali", sans-serif`;
+        c.font = `900 ${font2Size}px ${state.fontFamily}`;
       }
 
       const y1 = h * 0.28;
@@ -445,27 +455,27 @@
 
       // 3D Emboss for Line 1
       if (state.emboss3d) {
-        c.font = `800 ${font1Size}px "Noto Sans Bengali", sans-serif`;
+        c.font = `800 ${font1Size}px ${state.fontFamily}`;
         c.fillStyle = 'rgba(255, 255, 255, 0.35)';
         c.fillText(line1, centerX - 1.2, y1 - 1.2);
         c.fillStyle = 'rgba(0, 0, 0, 0.4)';
         c.fillText(line1, centerX + 1.8, y1 + 1.8);
       }
 
-      c.font = `800 ${font1Size}px "Noto Sans Bengali", sans-serif`;
+      c.font = `800 ${font1Size}px ${state.fontFamily}`;
       c.fillStyle = theme.text;
       c.fillText(line1, centerX, y1);
 
       // 3D Emboss for Line 2
       if (state.emboss3d) {
-        c.font = `900 ${font2Size}px "Noto Sans Bengali", sans-serif`;
+        c.font = `900 ${font2Size}px ${state.fontFamily}`;
         c.fillStyle = 'rgba(255, 255, 255, 0.35)';
         c.fillText(line2, centerX - 1.2, y2 - 1.2);
         c.fillStyle = 'rgba(0, 0, 0, 0.45)';
         c.fillText(line2, centerX + 2, y2 + 2);
       }
 
-      c.font = `900 ${font2Size}px "Noto Sans Bengali", sans-serif`;
+      c.font = `900 ${font2Size}px ${state.fontFamily}`;
       c.fillStyle = theme.text;
       c.fillText(line2, centerX, y2);
     }
@@ -700,6 +710,35 @@
     state.line2Text = val;
     renderCanvas();
   });
+
+  // ─── Font & Size Listeners ────────────────────────────────────
+  if (fontSelect) {
+    fontSelect.addEventListener('change', () => {
+      state.fontFamily = fontSelect.value;
+      renderCanvas();
+    });
+  }
+
+  if (fontSizeSlider) {
+    fontSizeSlider.addEventListener('input', () => {
+      const val = parseInt(fontSizeSlider.value, 10);
+      state.fontScale = val / 100;
+      if (fontSizeDisplay) {
+        fontSizeDisplay.textContent = val + '%';
+      }
+      renderCanvas();
+    });
+  }
+
+  if (resetFontSizeBtn) {
+    resetFontSizeBtn.addEventListener('click', () => {
+      if (fontSizeSlider) fontSizeSlider.value = 100;
+      state.fontScale = 1.0;
+      if (fontSizeDisplay) fontSizeDisplay.textContent = '100%';
+      renderCanvas();
+      showToast('ফন্ট সাইজ রিসেট করা হয়েছে (100%)');
+    });
+  }
 
   // ─── Export & Download Engine ──────────────────────────────────
 
