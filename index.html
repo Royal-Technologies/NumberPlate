@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>নম্বর প্লেট জেনারেটর | Royal Technologies</title>
+  <meta name="description" content="বাংলাদেশ ডিজিটাল ভেহিক্যাল নম্বর প্লেট জেনারেটর — মোটরসাইকেল, স্কুটার, কার, সিএনজি প্লেট তৈরি ও প্রিন্ট করুন। Powered by Royal Technologies." />
+  <meta name="author" content="Royal Technologies" />
+
+  <!-- Favicon (Crown + Number Plate Vector) -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="alternate icon" href="favicon.svg" type="image/svg+xml" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Google Fonts: Noto Sans Bengali & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- jsPDF CDN for 1:1 Scale A4 Printing -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- Custom Stylesheet with Dark/Light Mode & Glassmorphism -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ================= HEADER ================= -->
+  <header class="app-header">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Brand Logo + Identity -->
+        <div class="flex items-center gap-3 sm:gap-4">
+          <!-- Royal Technologies Vector Logo -->
+          <a href="#" class="brand-logo-container group" title="Royal Technologies">
+            <svg class="w-8 h-8 transition-transform group-hover:scale-110" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="120" height="120" rx="28" fill="#1e1b4b"/>
+              <rect x="2" y="2" width="116" height="116" rx="26" stroke="#818cf8" stroke-width="2" stroke-opacity="0.5"/>
+              <!-- Crown -->
+              <path d="M38 42 L34 26 L48 34 L60 20 L72 34 L86 26 L82 42 Z" fill="url(#headerCrown)"/>
+              <circle cx="34" cy="24" r="3" fill="#38bdf8"/>
+              <circle cx="60" cy="18" r="3.5" fill="#ffffff"/>
+              <circle cx="86" cy="24" r="3" fill="#c084fc"/>
+              <!-- Plate -->
+              <rect x="22" y="52" width="76" height="42" rx="8" fill="#ffffff" stroke="#0f172a" stroke-width="2.5"/>
+              <rect x="26" y="56" width="68" height="34" rx="5" fill="none" stroke="#64748b" stroke-width="1"/>
+              <circle cx="34" cy="73" r="3" fill="#10b981"/>
+              <rect x="42" y="62" width="44" height="5" rx="2.5" fill="#0f172a"/>
+              <rect x="42" y="72" width="44" height="6" rx="3" fill="#0f172a"/>
+              <text x="60" y="87" font-family="'Inter', sans-serif" font-weight="900" font-size="6.5" fill="#4338ca" text-anchor="middle">ROYAL TECH</text>
+              <defs>
+                <linearGradient id="headerCrown" x1="34" y1="20" x2="86" y2="42" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#38bdf8"/>
+                  <stop offset="0.5" stop-color="#818cf8"/>
+                  <stop offset="1" stop-color="#c084fc"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </a>
+
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 class="font-bangla font-extrabold text-lg sm:text-xl tracking-tight text-[var(--text-main)]">
+                নম্বর প্লেট জেনারেটর
+              </h1>
+              <span class="hidden md:inline-flex brand-badge">
+                <i class="fa-solid fa-crown text-[10px] text-amber-400"></i> Royal Edition
+              </span>
+            </div>
+            <p class="text-xs text-[var(--text-muted)] flex items-center gap-1.5 font-medium">
+              <span>Presented by</span>
+              <span class="font-bold gradient-text">Royal Technologies</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Controls: Theme Toggle & Links -->
+        <div class="flex items-center gap-2.5 sm:gap-4">
+          <!-- Light / Dark Mode Toggle Button -->
+          <button id="themeToggleBtn" class="theme-toggle-btn" title="ডার্ক / লাইট মুড পরিবর্তন করুন (Toggle Dark/Light Mode)">
+            <i id="themeIcon" class="fa-solid fa-sun text-amber-400 text-lg"></i>
+          </button>
+
+          <!-- GitHub Repo Button -->
+          <a href="https://github.com/Royal-Technologies/NumberPlate" target="_blank" rel="noopener noreferrer"
+             class="btn-outline hidden sm:inline-flex">
+            <i class="fa-brands fa-github text-base"></i>
+            <span>GitHub</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTAINER ================= -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- Hero Title / Intro -->
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold mb-3">
+        <i class="fa-solid fa-sparkles text-amber-400"></i>
+        <span>বাংলাদেশ ভেহিক্যাল নম্বর প্লেট ডিজাইন ও প্রিন্টিং স্টুডিও</span>
+      </div>
+      <h2 class="font-bangla text-2xl sm:text-4xl font-extrabold text-[var(--text-main)] mb-2 tracking-tight">
+        ডিজিটাল নম্বর প্লেট তৈরি ও নিখুঁত প্রিন্ট
+      </h2>
+      <p class="text-sm sm:text-base text-[var(--text-muted)] max-w-2xl mx-auto font-bangla">
+        মোটরসাইকেল, স্কুটার, কার, জিপ বা সিএনজির জন্য সঠিক স্কেলে ডিজিটাল নম্বর প্লেট ডিজাইন করুন এবং সরাসরি 100% আসল মাপে A4 পেপারে প্রিন্ট বা হাই-রেজ্যুলেশনে ডাউনলোড করুন।
+      </p>
+    </div>
+
+    <!-- Quick Presets -->
+    <div class="mb-6 p-3.5 glass-card flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-2 text-xs font-bold text-[var(--text-muted)]">
+        <i class="fa-solid fa-bolt text-amber-400"></i>
+        <span>দ্রুত প্রি-সেট / Quick Presets:</span>
+      </div>
+      <div class="flex flex-wrap items-center gap-2" id="presetButtons">
+        <button class="preset-pill active" data-preset="bike-front">
+          <i class="fa-solid fa-motorcycle text-indigo-400 mr-1"></i> বাইক সামনে (285×50)
+        </button>
+        <button class="preset-pill" data-preset="bike-rear">
+          <i class="fa-solid fa-motorcycle text-indigo-400 mr-1"></i> বাইক পেছনে (200×100)
+        </button>
+        <button class="preset-pill" data-preset="car-horizontal">
+          <i class="fa-solid fa-car text-cyan-400 mr-1"></i> প্রাইভেট কার লম্বা (520×110)
+        </button>
+        <button class="preset-pill" data-preset="car-square">
+          <i class="fa-solid fa-truck-pickup text-emerald-400 mr-1"></i> জিপ / স্কয়ার কার (340×200)
+        </button>
+        <button class="preset-pill" data-preset="cng-auto">
+          <i class="fa-solid fa-taxi text-yellow-400 mr-1"></i> সিএনজি / হলুদ প্লেট (285×165)
+        </button>
+        <button class="preset-pill" data-preset="ev-car">
+          <i class="fa-solid fa-leaf text-green-400 mr-1"></i> পরিবেশবান্ধব সবুজ ইভি
+        </button>
+      </div>
+    </div>
+
+    <!-- Work Area Grid: Left Controls | Right Live Preview -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+      <!-- ================= LEFT CONTROLS (7 Cols) ================= -->
+      <div class="lg:col-span-7 space-y-6">
+
+        <!-- 1. VEHICLE TYPE & SIZE SELECTION -->
+        <div class="glass-card">
+          <div class="card-header-bar">
+            <div class="card-header-title">
+              <i class="fa-solid fa-ruler-combined"></i>
+              <span>যানবাহন ও প্লেটের মাপ <span class="text-xs font-normal text-[var(--text-muted)] font-sans">/ Plate Size</span></span>
+            </div>
+            <span class="text-xs font-bangla px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-semibold">
+              ডিফল্ট: বাইক সামনের সাইজ
+            </span>
+          </div>
+
+          <!-- Vehicle Size Grid -->
+          <div class="vehicle-grid" id="vehicleSizeGrid">
+            <!-- 1. Motorcycle Front (Default!) -->
+            <div class="vehicle-option-card active" data-type="bike-front" data-w="285" data-h="50" data-lines="1">
+              <i class="fa-solid fa-motorcycle"></i>
+              <div class="vehicle-name-bn">মোটরসাইকেল (সামনে)</div>
+              <div class="vehicle-name-en">Bike Front (Default)</div>
+              <div class="vehicle-dimen-tag">285 × 50 mm</div>
+            </div>
+
+            <!-- 2. Motorcycle Rear (Square / Two-line) -->
+            <div class="vehicle-option-card" data-type="bike-rear" data-w="200" data-h="100" data-lines="2">
+              <i class="fa-solid fa-motorcycle"></i>
+              <div class="vehicle-name-bn">মোটরসাইকেল (পেছনে)</div>
+              <div class="vehicle-name-en">Bike Rear (Two-line)</div>
+              <div class="vehicle-dimen-tag">200 × 100 mm</div>
+            </div>
+
+            <!-- 3. Scooter -->
+            <div class="vehicle-option-card" data-type="scooter" data-w="250" data-h="55" data-lines="1">
+              <i class="fa-solid fa-moped"></i>
+              <div class="vehicle-name-bn">স্কুটার</div>
+              <div class="vehicle-name-en">Scooter Standard</div>
+              <div class="vehicle-dimen-tag">250 × 55 mm</div>
+            </div>
+
+            <!-- 4. Private Car Long Horizontal -->
+            <div class="vehicle-option-card" data-type="car-long" data-w="520" data-h="110" data-lines="2">
+              <i class="fa-solid fa-car-side"></i>
+              <div class="vehicle-name-bn">প্রাইভেট কার / জিপ</div>
+              <div class="vehicle-name-en">Car Horizontal</div>
+              <div class="vehicle-dimen-tag">520 × 110 mm</div>
+            </div>
+
+            <!-- 5. Car / SUV / Pickup Square -->
+            <div class="vehicle-option-card" data-type="car-square" data-w="340" data-h="200" data-lines="2">
+              <i class="fa-solid fa-truck-pickup"></i>
+              <div class="vehicle-name-bn">স্কয়ার কার / এসইউভি</div>
+              <div class="vehicle-name-en">Square Plate / SUV</div>
+              <div class="vehicle-dimen-tag">340 × 200 mm</div>
+            </div>
+
+            <!-- 6. CNG / Auto Rickshaw -->
+            <div class="vehicle-option-card" data-type="cng" data-w="285" data-h="165" data-lines="2">
+              <i class="fa-solid fa-taxi"></i>
+              <div class="vehicle-name-bn">সিএনজি / অটো</div>
+              <div class="vehicle-name-en">Three-Wheeler / CNG</div>
+              <div class="vehicle-dimen-tag">285 × 165 mm</div>
+            </div>
+          </div>
+
+          <!-- Custom Dimension Inputs (Accordion / Expandable) -->
+          <div class="mt-4 pt-4 border-t border-[var(--border-color)]">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-bold text-[var(--text-muted)] flex items-center gap-1.5">
+                <i class="fa-solid fa-sliders text-indigo-400"></i>
+                <span>কাস্টম সাইজ অ্যাডজাস্টমেন্ট (Custom Dimension in mm):</span>
+              </span>
+              <button id="resetSizeBtn" class="text-xs text-indigo-400 hover:text-indigo-300 font-semibold underline">
+                সাইজ রিসেট করুন
+              </button>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div>
+                <label class="form-label text-xs">প্রস্থ / Width (mm)</label>
+                <input type="number" id="customWidthInput" class="form-input text-sm py-1.5" min="100" max="800" value="285" />
+              </div>
+              <div>
+                <label class="form-label text-xs">উচ্চতা / Height (mm)</label>
+                <input type="number" id="customHeightInput" class="form-input text-sm py-1.5" min="30" max="400" value="50" />
+              </div>
+              <div class="col-span-2 sm:col-span-1">
+                <label class="form-label text-xs">লেআউট ফরম্যাট</label>
+                <select id="layoutLinesSelect" class="form-select text-sm py-1.5">
+                  <option value="1">এক লাইন (Single Line)</option>
+                  <option value="2">দুই লাইন (Double Line)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. REGISTRATION DETAILS INPUT -->
+        <div class="glass-card">
+          <div class="card-header-bar">
+            <div class="card-header-title">
+              <i class="fa-solid fa-keyboard"></i>
+              <span>নিবন্ধন ও নম্বর তথ্য <span class="text-xs font-normal text-[var(--text-muted)] font-sans">/ Registration Text</span></span>
+            </div>
+            <!-- Auto English-to-Bangla digits toggle -->
+            <label class="flex items-center gap-1.5 text-xs text-[var(--text-muted)] cursor-pointer select-none">
+              <input type="checkbox" id="autoBanglaDigitsToggle" checked class="rounded text-indigo-600 focus:ring-0">
+              <span class="font-bangla">সংখ্যা বাংলায় রূপান্তর</span>
+            </label>
+          </div>
+
+          <div class="space-y-4">
+            
+            <!-- Row: District & Vehicle Class Selection -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="form-label">
+                  <span>মেট্রো / জেলা (District)</span>
+                  <span class="text-xs text-[var(--text-subtle)] font-sans">BRTA Code</span>
+                </label>
+                <select id="districtSelect" class="form-select font-bangla">
+                  <optgroup label="মেট্রোপলিটন শহর (Metro)">
+                    <option value="ঢাকা মেট্রো" selected>ঢাকা মেট্রো (Dhaka Metro)</option>
+                    <option value="চট্টগ্রাম মেট্রো">চট্টগ্রাম মেট্রো (Chittagong Metro)</option>
+                    <option value="রাজশাহী মেট্রো">রাজশাহী মেট্রো (Rajshahi Metro)</option>
+                    <option value="খুলনা মেট্রো">খুলনা মেট্রো (Khulna Metro)</option>
+                    <option value="সিলেট মেট্রো">সিলেট মেট্রো (Sylhet Metro)</option>
+                    <option value="বরিশাল মেট্রো">বরিশাল মেট্রো (Barishal Metro)</option>
+                    <option value="রংপুর মেট্রো">রংপুর মেট্রো (Rangpur Metro)</option>
+                    <option value="ময়মনসিংহ মেট্রো">ময়মনসিংহ মেট্রো (Mymensingh Metro)</option>
+                  </optgroup>
+                  <optgroup label="ঢাকা বিভাগ">
+                    <option value="ঢাকা">ঢাকা (Dhaka)</option>
+                    <option value="গাজীপুর">গাজীপুর (Gazipur)</option>
+                    <option value="নারায়ণগঞ্জ">নারায়ণগঞ্জ (Narayanganj)</option>
+                    <option value="টাঙ্গাইল">টাঙ্গাইল (Tangail)</option>
+                    <option value="ফরিদপুর">ফরিদপুর (Faridpur)</option>
+                    <option value="নরসিংদী">নরসিংদী (Narsingdi)</option>
+                    <option value="মুন্সীগঞ্জ">মুন্সীগঞ্জ (Munshiganj)</option>
+                    <option value="মানিকগঞ্জ">মানিকগঞ্জ (Manikganj)</option>
+                    <option value="কিশোরগঞ্জ">কিশোরগঞ্জ (Kishoreganj)</option>
+                    <option value="গোপালগঞ্জ">গোপালগঞ্জ (Gopalganj)</option>
+                  </optgroup>
+                  <optgroup label="চট্টগ্রাম বিভাগ">
+                    <option value="চট্টগ্রাম">চট্টগ্রাম (Chittagong)</option>
+                    <option value="কুমিল্লা">কুমিল্লা (Cumilla)</option>
+                    <option value="নোয়াখালী">নোয়াখালী (Noakhali)</option>
+                    <option value="কক্সবাজার">কক্সবাজার (Cox's Bazar)</option>
+                    <option value="ব্রাহ্মণবাড়িয়া">ব্রাহ্মণবাড়িয়া (Brahmanbaria)</option>
+                    <option value="চাঁদপুর">চাঁদপুর (Chandpur)</option>
+                    <option value="ফেনী">ফেনী (Feni)</option>
+                  </optgroup>
+                  <optgroup label="অন্যান্য বিভাগ">
+                    <option value="রাজশাহী">রাজশাহী (Rajshahi)</option>
+                    <option value="বগুড়া">বগুড়া (Bogura)</option>
+                    <option value="পাবনা">পাবনা (Pabna)</option>
+                    <option value="খুলনা">খুলনা (Khulna)</option>
+                    <option value="যশোর">যশোর (Jashore)</option>
+                    <option value="কুষ্টিয়া">কুষ্টিয়া (Kushtia)</option>
+                    <option value="সিলেট">সিলেট (Sylhet)</option>
+                    <option value="মৌলভীবাজার">মৌলভীবাজার (Moulvibazar)</option>
+                    <option value="বরিশাল">বরিশাল (Barishal)</option>
+                    <option value="রংপুর">রংপুর (Rangpur)</option>
+                    <option value="দিনাজপুর">দিনাজপুর (Dinajpur)</option>
+                    <option value="ময়মনসিংহ">ময়মনসিংহ (Mymensingh)</option>
+                  </optgroup>
+                </select>
+              </div>
+
+              <div>
+                <label class="form-label">
+                  <span>যানবাহন শ্রেণি / সিরিজ অক্ষর (Class)</span>
+                  <span class="text-xs text-[var(--text-subtle)] font-sans">Series</span>
+                </label>
+                <select id="seriesClassSelect" class="form-select font-bangla">
+                  <optgroup label="মোটরসাইকেল">
+                    <option value="হ" selected>হ (Ha - বাইক ১২৬-১৫০ সিসি)</option>
+                    <option value="ল">ল (La - বাইক ১০১-১২৫ সিসি)</option>
+                    <option value="ক">ক (Ka - বাইক ৫০-১০০ সিসি)</option>
+                  </optgroup>
+                  <optgroup label="প্রাইভেট কার ও জিপ">
+                    <option value="গ">গ (Ga - কার ১৩০১-১৮০০ সিসি)</option>
+                    <option value="খ">খ (Kha - কার ১৮০১ সিসির উপরে)</option>
+                    <option value="ঘ">ঘ (Gha - জিপ ও এসইউভি)</option>
+                    <option value="চ">চ (Cha - মাইক্রোবাস)</option>
+                    <option value="ছ">ছ (Chha - লেগুনা / হিউম্যান হলার)</option>
+                  </optgroup>
+                  <optgroup label="বাণিজ্যিক ও অন্যান্য">
+                    <option value="থ">থ (Tha - সিএনজি অটোরিকশা)</option>
+                    <option value="দ">দ (Da - প্রাইভেট সিএনজি)</option>
+                    <option value="ট">ট (Ta - মাঝারি ট্রাক)</option>
+                    <option value="ড">ড (Da - বড় ট্রাক)</option>
+                    <option value="ন">ন (Na - পিকআপ ভ্যান)</option>
+                    <option value="প">প (Pa - ট্যাক্সি)</option>
+                    <option value="ব">ব (Ba - বড় বাস)</option>
+                    <option value="জ">জ (Ja - মিনিবাস)</option>
+                  </optgroup>
+                </select>
+              </div>
+            </div>
+
+            <!-- Single Line Input (Used for Motorcycle front or Slim plates) -->
+            <div id="singleLineInputContainer">
+              <label class="form-label">
+                <span>সম্পূর্ণ প্লেটের টেক্সট (এক লাইন)</span>
+                <span class="text-xs text-[var(--text-subtle)]">Plate Text</span>
+              </label>
+              <div class="relative">
+                <input type="text" id="singleLineTextInput" class="form-input font-bangla text-lg font-bold pr-10"
+                       value="ঢাকা মেট্রো-হ ১২-৩৪৫৬" placeholder="উদাহরণ: ঢাকা মেট্রো-হ ১২-৩৪৫৬" />
+                <button id="clearSingleLineBtn" class="absolute right-3 top-3 text-[var(--text-subtle)] hover:text-[var(--text-main)]" title="মুছে ফেলুন">
+                  <i class="fa-solid fa-circle-xmark"></i>
+                </button>
+              </div>
+              <p class="text-[11px] text-[var(--text-muted)] mt-1 font-bangla">
+                💡 জেলা বা শ্রেণি ড্রপডাউন পরিবর্তন করলে অথবা সরাসরি এখানে টাইপ করলে স্বয়ংক্রিয়ভাবে প্লেট আপডেট হবে।
+              </p>
+            </div>
+
+            <!-- Two-Line Inputs (Used for Car Long, Car Square, Bike Rear, CNG) -->
+            <div id="twoLineInputContainer" class="hidden space-y-3">
+              <div>
+                <label class="form-label">
+                  <span>লাইন ১: জেলা ও শ্রেণি (Line 1 - District & Class)</span>
+                </label>
+                <input type="text" id="line1TextInput" class="form-input font-bangla font-bold"
+                       value="ঢাকা মেট্রো-হ" placeholder="ঢাকা মেট্রো-হ" />
+              </div>
+
+              <div>
+                <label class="form-label">
+                  <span>লাইন ২: রেজিস্ট্রেশন নম্বর (Line 2 - Registration Digits)</span>
+                </label>
+                <input type="text" id="line2TextInput" class="form-input font-bangla font-bold text-lg"
+                       value="১২-৩৪৫৬" placeholder="১২-৩৪৫৬" />
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 3. COLOR & STYLING -->
+        <div class="glass-card">
+          <div class="card-header-bar">
+            <div class="card-header-title">
+              <i class="fa-solid fa-palette"></i>
+              <span>প্লেটের রঙ ও ক্যাটাগরি <span class="text-xs font-normal text-[var(--text-muted)] font-sans">/ Plate Theme</span></span>
+            </div>
+            <span class="text-xs text-[var(--text-muted)] font-bangla">বিআরটিএ মানসম্মত</span>
+          </div>
+
+          <div class="color-options-grid" id="colorThemeGrid">
+            <!-- White Plate (Civilian / Private) -->
+            <div class="color-option-btn active" data-color-type="white">
+              <span class="color-swatch-circle" style="background: #ffffff; border-color: #cbd5e1;"></span>
+              <div>
+                <div class="font-bangla font-bold text-sm">সাদা প্লেট</div>
+                <div class="text-[11px] text-[var(--text-muted)]">ব্যক্তিগত যানবাহন</div>
+              </div>
+            </div>
+
+            <!-- Yellow Plate (Commercial) -->
+            <div class="color-option-btn" data-color-type="yellow">
+              <span class="color-swatch-circle" style="background: #fbbf24; border-color: #f59e0b;"></span>
+              <div>
+                <div class="font-bangla font-bold text-sm">হলুদ প্লেট</div>
+                <div class="text-[11px] text-[var(--text-muted)]">বাণিজ্যিক / সিএনজি / ট্যাক্সি</div>
+              </div>
+            </div>
+
+            <!-- Green Plate (Electric Vehicle - EV) -->
+            <div class="color-option-btn" data-color-type="green">
+              <span class="color-swatch-circle" style="background: #10b981; border-color: #059669;"></span>
+              <div>
+                <div class="font-bangla font-bold text-sm">সবুজ প্লেট</div>
+                <div class="text-[11px] text-[var(--text-muted)]">পরিবেশবান্ধব ইভি (EV)</div>
+              </div>
+            </div>
+
+            <!-- Red Plate (Government / Official) -->
+            <div class="color-option-btn" data-color-type="red">
+              <span class="color-swatch-circle" style="background: #dc2626; border-color: #b91c1c;"></span>
+              <div>
+                <div class="font-bangla font-bold text-sm">লাল প্লেট</div>
+                <div class="text-[11px] text-[var(--text-muted)]">সরকারি যানবাহন</div>
+              </div>
+            </div>
+
+            <!-- Blue Plate (Diplomatic Corps) -->
+            <div class="color-option-btn" data-color-type="blue">
+              <span class="color-swatch-circle" style="background: #38bdf8; border-color: #0284c7;"></span>
+              <div>
+                <div class="font-bangla font-bold text-sm">নীল প্লেট</div>
+                <div class="text-[11px] text-[var(--text-muted)]">কূটনৈতিক (Diplomatic)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. FRAME & AUTHENTIC DETAILS -->
+        <div class="glass-card">
+          <div class="card-header-bar">
+            <div class="card-header-title">
+              <i class="fa-solid fa-border-all"></i>
+              <span>বর্ডার ফ্রেম ও অতিরিক্ত অপশন <span class="text-xs font-normal text-[var(--text-muted)] font-sans">/ Frame & Details</span></span>
+            </div>
+          </div>
+
+          <!-- Border Frame Thickness Grid -->
+          <label class="form-label text-xs">ফ্রেম বর্ডার থিকনেস (Border Thickness)</label>
+          <div class="frame-options-grid mb-4" id="frameThicknessGrid">
+            <div class="frame-option-btn" data-frame="none">
+              <div class="frame-preview-box" style="border: none;"></div>
+              <span class="font-bangla font-semibold text-xs">বর্ডার নেই</span>
+              <span class="text-[10px] text-[var(--text-subtle)]">0 mm</span>
+            </div>
+            <div class="frame-option-btn" data-frame="thin">
+              <div class="frame-preview-box" style="border: 1.5px solid #0f172a;"></div>
+              <span class="font-bangla font-semibold text-xs">পাতলা</span>
+              <span class="text-[10px] text-[var(--text-subtle)]">0.5 mm</span>
+            </div>
+            <div class="frame-option-btn active" data-frame="medium">
+              <div class="frame-preview-box" style="border: 3px solid #0f172a;"></div>
+              <span class="font-bangla font-semibold text-xs">মাঝারি (স্ট্যান্ডার্ড)</span>
+              <span class="text-[10px] text-[var(--text-subtle)]">1.0 mm</span>
+            </div>
+            <div class="frame-option-btn" data-frame="thick">
+              <div class="frame-preview-box" style="border: 5px solid #0f172a;"></div>
+              <span class="font-bangla font-semibold text-xs">মোটা বর্ডার</span>
+              <span class="text-[10px] text-[var(--text-subtle)]">2.0 mm</span>
+            </div>
+          </div>
+
+          <!-- Advanced Toggle Options -->
+          <div class="space-y-2.5">
+            <!-- Screw Holes Toggle -->
+            <div class="toggle-switch-wrapper">
+              <div>
+                <div class="font-bangla font-bold text-sm text-[var(--text-main)]">স্ক্রু হোল ড্রিল মার্ক (Screw Holes)</div>
+                <div class="text-xs text-[var(--text-muted)]">প্লেটের দুই পাশে স্ক্রু ফিটিং পয়েন্ট দেখাবে</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="screwHolesToggle" checked />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <!-- Hologram / Bangladesh Emblem Watermark -->
+            <div class="toggle-switch-wrapper">
+              <div>
+                <div class="font-bangla font-bold text-sm text-[var(--text-main)]">বিআরটিএ হলোগ্রাম ও ব্যাজ (BRTA Hologram)</div>
+                <div class="text-xs text-[var(--text-muted)]">আসল ডিজিটাল প্লেটের মতো বাংলাদেশ লোগো ও হলোগ্রাম</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="hologramToggle" checked />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <!-- Embossed 3D Metal Effect -->
+            <div class="toggle-switch-wrapper">
+              <div>
+                <div class="font-bangla font-bold text-sm text-[var(--text-main)]">৩ডি এমবসড স্ট্যাম্পড মেটাল ইফেক্ট (3D Emboss)</div>
+                <div class="text-xs text-[var(--text-muted)]">ধাতব প্লেটের মতো উঁচু খোদাই করা ত্রিমাত্রিক টেক্সট</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="emboss3dToggle" checked />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <!-- Glossy Reflection Sheen -->
+            <div class="toggle-switch-wrapper">
+              <div>
+                <div class="font-bangla font-bold text-sm text-[var(--text-main)]">রিফ্লেক্টিভ গ্লস ওভারলে (Gloss Reflection)</div>
+                <div class="text-xs text-[var(--text-muted)]">প্রিভিউতে আলোর উজ্জ্বল প্রতিফলন দেখাবে</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="glossToggle" checked />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ================= RIGHT PREVIEW & DOWNLOAD (5 Cols) ================= -->
+      <div class="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
+
+        <!-- LIVE CANVAS PREVIEW -->
+        <div class="glass-card">
+          <div class="card-header-bar">
+            <div class="card-header-title">
+              <i class="fa-solid fa-eye"></i>
+              <span>লাইভ ক্যানভাস প্রিভিউ <span class="text-xs font-normal text-[var(--text-muted)] font-sans">/ Live Preview</span></span>
+            </div>
+            <div class="flex items-center gap-1.5 text-xs text-emerald-400 font-semibold">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+              <span>রিয়েল-টাইম</span>
+            </div>
+          </div>
+
+          <!-- Preview Stage -->
+          <div class="canvas-stage-wrapper">
+            <div class="canvas-container" id="canvasContainer">
+              <canvas id="plateCanvas"></canvas>
+              <!-- Glossy reflection overlay -->
+              <div id="plateGlassSheen" class="plate-glass-sheen"></div>
+            </div>
+          </div>
+
+          <!-- Metadata info bar -->
+          <div class="mt-4 pt-3 border-t border-[var(--border-color)] flex items-center justify-between text-xs text-[var(--text-muted)]">
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-ruler text-indigo-400"></i>
+              <span class="font-medium">মাপ:</span>
+              <span id="dimensionDisplayBadge" class="font-bold text-[var(--text-main)]">285 × 50 mm</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-expand text-cyan-400"></i>
+              <span class="font-medium">রেন্ডার স্কেল:</span>
+              <span class="font-bold text-[var(--text-main)]">300 DPI High-Res</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- EXPORT & DOWNLOAD ACTIONS -->
+        <div class="glass-card">
+          <div class="card-header-bar">
+            <div class="card-header-title">
+              <i class="fa-solid fa-download"></i>
+              <span>ডাউনলোড ও প্রিন্টিং <span class="text-xs font-normal text-[var(--text-muted)] font-sans">/ Export & Print</span></span>
+            </div>
+            <span class="text-[11px] text-indigo-400 font-semibold font-bangla">১০০% ফ্রি</span>
+          </div>
+
+          <p class="text-xs text-[var(--text-muted)] font-bangla leading-relaxed">
+            আপনার পছন্দের ফরম্যাটে হাই-রেজ্যুলেশন ইমেজ অথবা সরাসরি প্রিন্ট করার জন্য A4 শিট আকারে ডাউনলোড করুন:
+          </p>
+
+          <!-- Download Buttons Grid -->
+          <div class="action-buttons-grid">
+            <!-- JPG -->
+            <button id="downloadJpgBtn" class="btn-glow btn-blue" title="হাই-কোয়ালিটি জেপিজি ডাউনলোড">
+              <i class="fa-solid fa-file-image"></i>
+              <span>JPG ফাইল</span>
+              <span class="btn-sub">300 DPI Image</span>
+            </button>
+
+            <!-- PNG -->
+            <button id="downloadPngBtn" class="btn-glow btn-purple" title="স্বচ্ছ ব্যাকগ্রাউন্ড সহ পিএনজি">
+              <i class="fa-solid fa-image"></i>
+              <span>PNG ফাইল</span>
+              <span class="btn-sub">Crisp Quality</span>
+            </button>
+
+            <!-- PDF A4 Sheet -->
+            <button id="downloadPdfBtn" class="btn-glow btn-rose" title="A4 পেপারে সত্যিকার ১:১ স্কেলে প্রিন্টের জন্য">
+              <i class="fa-solid fa-file-pdf"></i>
+              <span>A4 PDF শিট</span>
+              <span class="btn-sub">১০০% আসল মাপ</span>
+            </button>
+
+            <!-- Copy to Clipboard -->
+            <button id="copyImageBtn" class="btn-glow btn-emerald" title="ক্লিপবোর্ডে কপি করুন">
+              <i class="fa-solid fa-clipboard-check"></i>
+              <span>ক্লিপবোর্ড কপি</span>
+              <span class="btn-sub">Copy Image</span>
+            </button>
+          </div>
+
+          <!-- PDF Sheet Notice -->
+          <div class="mt-4 p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-xs text-[var(--text-muted)] font-bangla leading-relaxed flex items-start gap-2.5">
+            <i class="fa-solid fa-circle-check text-indigo-400 mt-0.5 text-sm"></i>
+            <div>
+              <strong class="text-[var(--text-main)]">A4 প্রিন্টিং শিটের বৈশিষ্ট্য:</strong>
+              পিডিএফ ডাউনলোডে সঠিক স্কেলিং রুলার ও চার কোণে কাটার ক্রপ মার্ক (Crop Marks) থাকবে। মোটরসাইকেল প্লেটের ক্ষেত্রে একটি A4 পেপারে ৩টি কপি এবং স্কুটারের ক্ষেত্রে ২টি কপি সাজানো থাকে।
+            </div>
+          </div>
+        </div>
+
+        <!-- QUICK GUIDELINE CARD -->
+        <div class="glass-card">
+          <div class="flex items-center gap-2 mb-2 text-sm font-bold text-[var(--text-main)] font-bangla">
+            <i class="fa-solid fa-circle-question text-cyan-400"></i>
+            <span>বিআরটিএ নম্বর প্লেট ব্যবহারের সাধারণ নিয়ম</span>
+          </div>
+          <ul class="text-xs text-[var(--text-muted)] space-y-1.5 font-bangla list-disc list-inside">
+            <li>সাধারণ মোটরসাইকেলের সামনে 285×50 mm এবং পেছনে 200×100 mm সাইজ ব্যবহূত হয়।</li>
+            <li>ব্যক্তিগত গাড়ির জন্য সাদা ব্যাকগ্রাউন্ড ও কালো অক্ষর বাধ্যতামূলক।</li>
+            <li>ভাড়া চালিত ট্যাক্সি, সিএনজি, বাসের জন্য হলুদ ব্যাকগ্রাউন্ড বাধ্যতামূলক।</li>
+            <li>সরকারি গাড়ির জন্য লাল ব্যাকগ্রাউন্ড ও সাদা অক্ষর প্রযোজ্য।</li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="app-footer">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+        
+        <!-- Left: Brand info -->
+        <div>
+          <div class="flex items-center justify-center sm:justify-start gap-2 mb-1">
+            <span class="font-bangla font-bold text-base text-[var(--text-main)]">নম্বর প্লেট জেনারেটর স্টুডিও</span>
+            <span class="brand-badge text-[10px]">v2.0 PRO</span>
+          </div>
+          <p class="text-xs text-[var(--text-muted)]">
+            Presented by <span class="font-semibold text-indigo-400">Royal Technologies</span> — All rights reserved © 2026
+          </p>
+          <p class="text-[11px] text-[var(--text-subtle)] mt-0.5">
+            Made with <i class="fa-solid fa-heart text-rose-500"></i> in Bangladesh for riders, motorists & workshops.
+          </p>
+        </div>
+
+        <!-- Right: Links -->
+        <div class="flex items-center justify-center gap-4 text-xs font-semibold text-[var(--text-muted)]">
+          <a href="https://github.com/Royal-Technologies/NumberPlate" target="_blank" rel="noopener noreferrer"
+             class="hover:text-indigo-400 transition-colors flex items-center gap-1.5">
+            <i class="fa-brands fa-github text-sm"></i>
+            <span>GitHub Repository</span>
+          </a>
+          <span>•</span>
+          <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="hover:text-indigo-400 transition-colors">
+            উপরে যান (Back to Top)
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification -->
+  <div id="toast">
+    <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+    <span id="toastMsg">ক্লিপবোর্ডে কপি করা হয়েছে!</span>
+  </div>
+
+  <!-- JavaScript Application Logic -->
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+# Operating System Files
+Thumbs.db
+.DS_Store
+
+# Editor & IDE directories
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+*.log
+npm-debug.log*
+
+# Laragon / Local Server
+.laragon/
